@@ -21,6 +21,8 @@ RUN mkdir -p /var/www/html/database
 RUN touch /var/www/html/database/database.sqlite
 RUN chmod -R 777 /var/www/html/database
 
+RUN php artisan migrate --force
+
 # ЭТО НОВАЯ СТРОКА:
 ENV PORT=8000
 
