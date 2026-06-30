@@ -1,14 +1,7 @@
 FROM php:8.2-fpm
 
 RUN apt-get update && apt-get install -y \
-    git \
-    curl \
-    libpng-dev \
-    libonig-dev \
-    libxml2-dev \
-    zip \
-    unzip \
-    sqlite3
+    git curl libpng-dev libonig-dev libxml2-dev zip unzip sqlite3
 
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
@@ -28,5 +21,8 @@ RUN mkdir -p /var/www/html/database
 RUN touch /var/www/html/database/database.sqlite
 RUN chmod -R 777 /var/www/html/database
 
-EXPOSE 9000
-CMD ["php-fpm"]
+# ЭТО НОВАЯ СТРОКА:
+ENV PORT=8000
+
+# ЭТО ЗАМЕНА:
+CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]
