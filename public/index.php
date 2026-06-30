@@ -1,5 +1,7 @@
 <?php
 
+ini_set('display_errors', 1);
+
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 
