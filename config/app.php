@@ -18,6 +18,12 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+ // ПРИНУДИТЕЛЬНЫЕ ПЕРЕМЕННЫЕ ДЛЯ RENDER
+    putenv('APP_ENV=production');
+    putenv('APP_URL=https://myapp-cutg.onrender.com');
+    putenv('DB_CONNECTION=sqlite');
+    putenv('DB_DATABASE=/var/www/html/database/database.sqlite');
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
