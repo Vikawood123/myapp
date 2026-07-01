@@ -4,7 +4,16 @@
 putenv('APP_ENV=production');
 putenv('APP_URL=https://myapp-cutg.onrender.com');
 putenv('DB_CONNECTION=sqlite');
-putenv('DB_DATABASE=/var/www/html/database/database.sqlite');
+
+// АВТОМАТИЧЕСКИЙ ПОИСК БАЗЫ ДАННЫХ
+$dbPath = __DIR__ . '/../database/database.sqlite';
+putenv('DB_DATABASE=' . $dbPath);
+
+// ЕСЛИ БАЗЫ НЕТ — СОЗДАЁМ
+if (!file_exists($dbPath)) {
+    touch($dbPath);
+    chmod($dbPath, 0666);
+}
 
 /*
 |--------------------------------------------------------------------------
