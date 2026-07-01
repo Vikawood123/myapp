@@ -33,3 +33,30 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 // Маршруты авторизации
 Route::get('/admin/stats', [App\Http\Controllers\AdminController::class, 'stats'])->name('admin.stats')->middleware('auth');
 Auth::routes();
+
+// ДИАГНОСТИЧЕСКИЙ МАРШРУТ
+Route::get('/debug', function() {
+    try {
+        // Проверяем базу данных
+        $tables = DB::select("SELECT name FROM sqlite_master WHERE type='table'");
+        
+        // Проверяем наличие файла базы
+        $dbExists = file_exists(database_path('database.sqlite'));
+        
+        return response()->json([
+            'status' => 'ok',
+            'db_file_exists' => $dbExists,
+            'db_path' => database_path('database.sqlite'),
+            'tables' => array_column($tables, 'name'),
+            'env_debug' => env('APP_DEBUG'),
+            'env_env' => env('APP_ENV'),
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage(),
+            'file' => $e->getFile(),
+            'line' => $e->getLine()
+        ], 500);
+    }
+});
